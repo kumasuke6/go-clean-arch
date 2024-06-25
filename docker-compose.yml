@@ -1,0 +1,41 @@
+services:
+  app:
+    build:
+      context: ./build/app/
+      dockerfile: Dockerfile
+    ports:
+      - 8080:8080
+    env_file:
+      - build/.env
+    volumes:
+      - ./:/go/src
+    depends_on:
+      - postgres
+  app-test:
+    build:
+      context: ./build/app/
+      dockerfile: Dockerfile.test
+    env_file:
+      - build/.env.test
+    volumes:
+      - ./:/go/src
+    depends_on:
+      - postgres-test
+  postgres:
+    image: postgres:12
+    ports:
+      - 5432:5432
+    command: -p 5432
+    env_file:
+      - build/.env
+    volumes:
+      - ./build/postgres/sql:/docker-entrypoint-initdb.d
+  postgres-test:
+    image: postgres:12
+    ports:
+      - 9432:5432
+    command: -p 5432
+    env_file:
+      - build/.env.test
+    volumes:
+      - ./build/postgres/sql:/docker-entrypoint-initdb.d

@@ -1,0 +1,9 @@
+- id: 1
+  user_id: 1
+  message: test message
+- id: 2
+  user_id: 2
+  message: test message 1
+- id: 3
+  user_id: 2
+  message: test message 2
